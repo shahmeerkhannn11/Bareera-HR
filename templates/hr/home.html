@@ -1,0 +1,40 @@
+{% extends 'hr/base.html' %}
+{% block title %}Admin · Dashboard{% endblock %}
+
+{% block header_actions %}
+  <a href="{% url 'employee_list' %}" class="btn primary"><i class="bi bi-people-fill"></i> Manage Employees</a>
+{% endblock %}
+
+{% block content %}
+<div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="page-heading">Dashboard Overview</div>
+  </div>
+
+  <div class="dashboard-grid" style="margin-top:18px;">
+    <div class="card">
+      <div class="icon">👥</div>
+      <h4>Total Employees</h4>
+      <div class="value">{{ employee_count }}</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📅</div>
+      <h4>Attendance Records</h4>
+      <div class="value">{{ attendance_count }}</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">💼</div>
+      <h4>Payroll Entries</h4>
+      <div class="value">{{ payroll_count }}</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">💵</div>
+      <h4>Average Salary</h4>
+      <div class="value amount">{{ average_salary }}</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

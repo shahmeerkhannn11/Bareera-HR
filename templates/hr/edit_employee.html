@@ -1,0 +1,39 @@
+{% extends 'hr/base.html' %}
+{% block title %}Edit Employee{% endblock %}
+
+{% block content %}
+
+<div class="glass admin-header">
+    <div class="header-left">
+        <h2 class="page-heading">Edit Employee</h2>
+    </div>
+</div>
+
+<div class="glass admin-content">
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Name</label>
+    <input type="text" name="name" value="{{ employee.name }}">
+
+    <label>Position</label>
+    <input type="text" name="position" value="{{ employee.position }}">
+
+    <label>Department</label>
+    <input type="text" name="department" value="{{ employee.department }}">
+
+    <label>Email</label>
+    <input type="email" name="email" value="{{ employee.email }}">
+
+    <label>Salary (PKR)</label>
+    <input type="number" name="salary" value="{{ employee.salary }}">
+
+    <label>Date Joined</label>
+    <input type="date" name="date_joined" value="{{ employee.date_joined|date:'Y-m-d' }}">
+
+    <button class="btn primary">Save Changes</button>
+</form>
+
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'hr/base.html' %}
+{% block title %}Add Employee{% endblock %}
+
+{% block header_actions %}
+  <a href="{% url 'employee_list' %}" class="btn"><i class="bi bi-arrow-left "></i> Back to Employees</a>
+{% endblock %}
+
+{% block content %}
+  <div class="glass-section">
+    <form method="post">
+      {% csrf_token %}
+      <label>Name</label>
+      <input type="text" name="name" required>
+
+      <label>Position</label>
+      <input type="text" name="position" required>
+
+      <label>Department</label>
+      <input type="text" name="department" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Salary</label>
+      <input type="text" name="salary" required>
+
+      <label>Date Joined</label>
+      <input type="date" name="date_joined" required>
+
+      <div class="action-buttons" style="margin-top:8px;">
+        <button type="submit" class="btn primary">Add Employee</button>
+        <a href="{% url 'employee_list' %}" class="btn">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

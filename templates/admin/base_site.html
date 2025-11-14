@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+{% block extrahead %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/neo-dark.css' %}">
+  <style>
+    /* small admin tweaks */
+    body { background: linear-gradient(180deg,#061019,#071124); }
+    #content-main { color:#e6eef8; }
+  </style>
+{% endblock %}
