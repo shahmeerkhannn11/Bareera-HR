@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-CHANGE_THIS_TO_YOUR_SECRET_KEY'
 
-DEBUG = False
+DEBUG = True   # ✔ FIXED — Must be True for local CSS
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'hr',  # HR module
+    'hr',
 ]
 
 # -------------------------------------------------------------
@@ -43,7 +43,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # 🔐 Custom middleware to block employees from admin
     'hr.middleware.PreventEmployeeFromAdminMiddleware',
 ]
 
@@ -53,19 +52,13 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'bareera_hr.urls'
 
 # -------------------------------------------------------------
-# TEMPLATE SETTINGS
+# TEMPLATES
 # -------------------------------------------------------------
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        # Django searches this folder FIRST
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-        ],
-
+        'DIRS': [ BASE_DIR / 'templates' ],
         'APP_DIRS': True,
-
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -83,7 +76,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bareera_hr.wsgi.application'
 
 # -------------------------------------------------------------
-# DATABASE CONFIGURATION
+# DATABASE
 # -------------------------------------------------------------
 DATABASES = {
     'default': {
@@ -93,37 +86,18 @@ DATABASES = {
 }
 
 # -------------------------------------------------------------
-# PASSWORD VALIDATION
-# -------------------------------------------------------------
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
-# -------------------------------------------------------------
-# INTERNATIONALIZATION
-# -------------------------------------------------------------
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'Asia/Karachi'
-USE_I18N = True
-USE_TZ = True
-
-# -------------------------------------------------------------
-# STATIC & MEDIA FILES
+# STATIC FILES (CSS, JS, Images)
 # -------------------------------------------------------------
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # -------------------------------------------------------------
-# DEFAULT PRIMARY KEY FIELD TYPE
+# DEFAULT AUTO FIELD
 # -------------------------------------------------------------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -135,7 +109,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # -------------------------------------------------------------
-# DJANGO MESSAGE TAGS
+# MESSAGE TAGS
 # -------------------------------------------------------------
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'debug',
