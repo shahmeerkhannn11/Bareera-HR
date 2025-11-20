@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.admin import UserAdmin
-from .models import Employee, EmployeeProfile, Attendance, Payroll
+from .models import Employee, EmployeeProfile, Attendance, Payroll, LeaveRequest
 
 
 # ---------------------------------------------------
@@ -24,17 +24,18 @@ admin_site.register(Group)
 
 
 # ---------------------------------------------------
-# Register your HR models
+# Register your HR models (custom admin site)
 # ---------------------------------------------------
 admin_site.register(Employee)
 admin_site.register(EmployeeProfile)
 admin_site.register(Attendance)
 admin_site.register(Payroll)
-
-from django.contrib import admin
-from .models import Employee, EmployeeProfile, Attendance, Payroll
+admin_site.register(LeaveRequest)   # <-- Added only this
 
 
+# ---------------------------------------------------
+# Default Django admin site registrations
+# ---------------------------------------------------
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ("emp_id", "name", "department", "position", "email", "salary", "date_joined")
@@ -56,3 +57,10 @@ class AttendanceAdmin(admin.ModelAdmin):
 class PayrollAdmin(admin.ModelAdmin):
     list_display = ("employee", "amount", "payment_date")
     list_filter = ("payment_date",)
+
+
+@admin.register(LeaveRequest)
+class LeaveRequestAdmin(admin.ModelAdmin):
+    list_display = ("employee", "leave_type", "start_date", "end_date", "status", "applied_on")
+    list_filter = ("leave_type", "status")
+    search_fields = ("employee__name",)

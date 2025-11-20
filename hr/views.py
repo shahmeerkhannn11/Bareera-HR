@@ -267,3 +267,75 @@ def export_employees_csv(request):
         ])
 
     return response
+
+# -------------------------------------------------------
+# LEAVE REQUEST MODULE
+# -------------------------------------------------------
+
+from .models import LeaveRequest
+from .forms import LeaveRequestForm
+
+
+# EMPLOYEE → Apply for Leave
+@login_required
+@user_passes_test(is_employee)
+def apply_leave(request):
+    if request.method == "POST":
+        form = LeaveRequestForm(request.POST)
+        if form.is_valid():
+            leave = form.save(commit=False)
+            leave.employee = request.user.employee_profile.employee
+            leave.save()
+            messages.success(request, "Leave request submitted successfully!")
+            return redirect("employee_leave_list")
+    else:
+        form = LeaveRequestForm()
+
+    return render(request, "hr/leave/apply_leave.html", {"form": form})
+
+
+# EMPLOYEE → View Own Leave Requests
+@login_required
+@user_passes_test(is_employee)
+def employee_leave_list(request):
+    emp = request.user.employee_profile.employee
+    leaves = LeaveRequest.objects.filter(employee=emp).order_by("-applied_on")
+
+    return render(request, "hr/leave/employee_leave_list.html", {"leaves": leaves})
+
+
+# ADMIN → View All Leave Requests
+@login_required
+@user_passes_test(is_admin)
+def admin_leave_list(request):
+    leaves = LeaveRequest.objects.all().order_by("-applied_on")
+    return render(request, "hr/leave/admin_leave_list.html", {"leaves": leaves})
+
+
+# ADMIN → Approve Leave
+@login_required
+@user_passes_test(is_admin)
+def approve_leave(request, pk):
+    leave = get_object_or_404(LeaveRequest, pk=pk)
+    leave.status = "Approved"
+    leave.save()
+    messages.success(request, "Leave approved!")
+    return redirect("admin_leave_list")
+
+
+# ADMIN → Reject Leave
+@login_required
+@user_passes_test(is_admin)
+def reject_leave(request, pk):
+    leave = get_object_or_404(LeaveRequest, pk=pk)
+    leave.status = "Rejected"
+    leave.save()
+    messages.success(request, "Leave rejected!")
+    return redirect("admin_leave_list")
+
+@login_required
+@user_passes_test(is_admin)
+def delete_all_leave_requests(request):
+    LeaveRequest.objects.all().delete()
+    messages.success(request, "All leave requests have been deleted.")
+    return redirect("admin_leave_list")

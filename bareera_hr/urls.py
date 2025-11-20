@@ -35,4 +35,19 @@ urlpatterns = [
 
     # CSV Export
     path('export-employees/', views.export_employees_csv, name='export_employees_csv'),
+
+
+    # -----------------------------------------------------
+    # Leave Request Module 
+    # -----------------------------------------------------
+
+    # Employee Actions
+    path('leave/apply/', views.apply_leave, name='apply_leave'),
+    path('leave/my-requests/', views.employee_leave_list, name='employee_leave_list'),
+
+    # Admin Actions
+    path('leave/requests/', views.admin_leave_list, name='admin_leave_list'),
+    path('leave/approve/<int:pk>/', views.approve_leave, name='approve_leave'),
+    path('leave/reject/<int:pk>/', views.reject_leave, name='reject_leave'),
+    path('leave/delete-all/', views.delete_all_leave_requests, name='delete_all_leave_requests'),
 ]

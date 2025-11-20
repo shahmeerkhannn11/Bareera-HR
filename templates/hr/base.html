@@ -26,6 +26,7 @@
             <a href="{% url 'employee_list' %}">Employees</a>
             <a href="{% url 'attendance_list' %}">Attendance</a>
             <a href="{% url 'payroll_list' %}">Payroll</a>
+            <a href="{% url 'admin_leave_list' %}" class="nav-link">Leave Request</a>
             <a href="{% url 'admin:index' %}">Admin</a>
           {% else %}
             <a href="{% url 'employee_dashboard' %}">My Dashboard</a>
